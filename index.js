@@ -77,22 +77,32 @@ async function main() {
   res.send("Create item")
 })*/
 
-  app.post("/items", function (req, res) {
+  app.post("/items", async function (req, res) {
     // Extrair informação do corpo da requisição
     //const item = req.body.name
     const item = req.body;
 
+    if (!item || !item.name || !item.imageUrl) {
+      return res.status(400).send({
+        message: "name & imageUrl are required."
+      })
+    }
+
     // Adicionar id
-    item.id = items.length + 1;
+    //item.id = items.length + 1;
 
     // Inserir info na lista
-    items.push(item);
+    //items.push(item);
+
+    // Inserir o item na collection
+    await collection.insertOne(item)
 
     // Envio msg de sucesso!
     //res.send("Item created successfully")
 
     // Devolve objeto adiciona
-    res.send(item);
+    //res.send(item);
+    res.status(201).send(item);
   });
 
   // UPDATE - [PUT] /items/:id
