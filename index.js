@@ -18,7 +18,7 @@ const items = ["Java", "Android", "Kotlin", "Express", "NestJS"]
 // READ ALL - [GET] /items
 
 app.get("/items", function (req, res) {
-  res.send(items)
+  res.send(items.filter(Boolean))
 })
 
 // READ BY ID - [GET] /items/:id
@@ -63,6 +63,18 @@ app.put("/items/:id", function (req, res) {
 
   // Envio msg de sucesso!
   res.send("Item updated successfully.")
+})
+
+// DELETE - [DELETE] /items/:id
+app.delete("/items/:id", function (req, res) {
+  // Acesso ao parâmetro de rota e corrigido o índice
+  const id = req.params.id - 1;
+
+  // Removido a informação a partir do índice
+  delete items[id]
+
+  // Envio msg de sucesso!
+  res.send("Item deleted successfully.")
 })
 
 app.listen(3000, function () {
