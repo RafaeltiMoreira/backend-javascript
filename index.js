@@ -54,19 +54,24 @@ async function main() {
   });
 
   // READ BY ID - [GET] /items/:id
-  app.get("/items/:id", function (req, res) {
+  app.get("/items/:id", async function (req, res) {
     // Acessar o parâmetro de rota ID
     // Subtrair 1 (um) para corrigir o índice (array) da lista que começa em 0 (zero)
     //const id = req.params.id - 1;
-
-    const id = +req.params.id;
+    //const id = +req.params.id;
+    const id = req.params.id;
 
     // Acesso ao item na lista a partir do index
     //const item = items[id]
 
-    const item = items.find(function (elemento) {
-      return elemento.id === id;
-    });
+    //const item = items.find(function (elemento) {
+    //  return elemento.id === id;
+    //});
+
+    // Busca o documento no collection
+    const item = await collection.findOne({
+      _id: new ObjectId(id)
+    })
 
     // Exibe o item obtido
     res.send(item);
