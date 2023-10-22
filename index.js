@@ -149,17 +149,19 @@ async function main() {
   });
 
   // DELETE - [DELETE] /items/:id
-  app.delete("/items/:id", function (req, res) {
+  app.delete("/items/:id", async function (req, res) {
     // Acesso ao parâmetro de rota e corrigido o índice
     //const id = req.params.id - 1;
     const id = req.params.id;
 
-    const index = items.findIndex(function (element) {
-      return element.id === id;
-    });
+    //const index = items.findIndex(function (element) {
+    //  return element.id === id;
+    //});
     // Removido a informação a partir do índice
     //delete items[id]
-    delete items[index];
+    //delete items[index];
+
+    await collection.deleteOne({ _id: new ObjectId(id) })
 
     // Envio msg de sucesso!
     res.send("Item deleted successfully.");
