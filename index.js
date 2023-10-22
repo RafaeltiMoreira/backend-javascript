@@ -21,6 +21,19 @@ app.get("/items", function (req, res) {
   res.send(items)
 })
 
+// READ BY ID - [GET] /items/:id
+app.get("/items/:id", function (req, res) {
+  //Acessar o parâmetro de rota ID
+  //Subtrair 1 (um) para corrigir o índice (array) da lista que começa em 0 (zero)
+  const id = req.params.id - 1;
+
+  //Acesso ao item na lista a partir do index
+  const item = items[id]
+
+  //Exibe o item obtido
+  res.send(item)
+})
+
 // CREATE - [POST] /items
 /*app.post("/items", function (req, res) {
   res.send("Create item")
