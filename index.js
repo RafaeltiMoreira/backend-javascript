@@ -46,8 +46,11 @@ async function main() {
 
   // READ ALL - [GET] /items
 
-  app.get("/items", function (req, res) {
-    res.send(items.filter(Boolean));
+  app.get("/items", async function (req, res) {
+    const documents = await collection.find().toArray()
+
+    res.send(documents)
+    //res.send(items.filter(Boolean));
   });
 
   // READ BY ID - [GET] /items/:id
