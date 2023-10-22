@@ -1,8 +1,8 @@
 const express = require("express");
+require("dotenv").config();
 const { MongoClient } = require("mongodb");
 
-const url =
-  "mongodb+srv://RafaTI:zyWyGIVmw5hLbO1z@cluster0.3rntpik.mongodb.net";
+const url = process.env.DATABASE_URL;
 const client = new MongoClient(url);
 const dbName = "db-semana-backend-javascript";
 
@@ -137,7 +137,7 @@ async function main() {
     res.send("Item deleted successfully.");
   });
 
-  app.listen(3000, function () {
+  app.listen(process.env.PORT || 3000, function () {
     console.log("App running on http://localhost:3000");
   });
 }
