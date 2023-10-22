@@ -1,6 +1,6 @@
 const express = require("express");
 require("dotenv").config();
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 const url = process.env.DATABASE_URL;
 const client = new MongoClient(url);
@@ -106,10 +106,11 @@ async function main() {
   });
 
   // UPDATE - [PUT] /items/:id
-  app.put("/items/:id", function (req, res) {
+  app.put("/items/:id", async function (req, res) {
     // Acesso ao parâmetro de rota e corrigido o índice
     //const id = req.params.id - 1;
-    const id = +req.params.id;
+    //const id = +req.params.id;
+    const id = req.params.id;
 
     // Obtemos o novo item a partir do corpo da requisição
     //const newItem = req.body.name
@@ -117,20 +118,29 @@ async function main() {
 
     // Colocando o novo item na mesma posição do item anterior
     //items[id] = newItem
-    const index = items.findIndex(function (elemento) {
-      return elemento.id === id;
-    });
+    //const index = items.findIndex(function (elemento) {
+    //  return elemento.id === id;
+    //});
 
-    items[index] = {
-      ...items[index],
-      ...newItem,
-    };
+    //items[index] = {
+    //  ...items[index],
+    //  ...newItem,
+    //};
+
+    // Atualizar o documento na collection
+    await collection.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: newItem
+      }
+    )
 
     // Envio msg de sucesso!
     //res.send("Item updated successfully.")
 
     // Devolve objeto adiciona
-    res.send(items[index]);
+    //res.send(items[index]);
+    res.send(newItem);
   });
 
   // DELETE - [DELETE] /items/:id
